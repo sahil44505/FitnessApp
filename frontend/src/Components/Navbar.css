@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+   
+    height: 80px;
+    background-color:#000000;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+.Links , .Roam{
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    text-decoration:none;
+    color:#3A1212;
+    
+  }
+  
+.Links a,.Roam a{
+    text-decoration: none;
+    color:#eee7e7;
+    margin-left: 20px;
+    font-size: 25px;
+  }
+.Links a:active {
+    text-decoration: underline;
+    text-decoration-color:#9f9b9f;
+}
+
+.Roam{
+  
+  gap: 50px;
+  padding: 12px;
+  margin-left: 38px;
+}

@@ -6,6 +6,7 @@ import ExerciseDetail from './pages/ExerciseDetail'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
 
+
 function App() {
   
 
@@ -19,6 +20,8 @@ function App() {
         <Routes>
         <Route path="/" element={<Home/>} />
           <Route path="/exercise/:id" element={<ExerciseDetail/>}/>
+          <Route path="/auth" element={<Home/>}/>
+         
         
 
         

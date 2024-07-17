@@ -140,3 +140,41 @@
     margin: 0px 2px 8px 11px;
     text-transform: capitalize;
 }
+.ex-detail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:60px;
+
+}
+.img-para{
+    font-weight: bold;
+    font-size: 22px;
+}
+.img-para-2{
+    margin-top: 12px;
+    font-weight: 500;
+}
+.icon-detail{
+    display: flex;
+    direction: row;
+    gap: 24px;
+    align-items: center;
+
+}
+.ex-vid{
+    margin-top: 200px;
+    padding: 20px;
+
+}
+.ex-vid-para{
+    font-weight: 900;
+}
+.ex-vid-videos{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    gap:110px;
+}

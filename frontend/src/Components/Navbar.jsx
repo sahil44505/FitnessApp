@@ -1,9 +1,12 @@
 import React from 'react'
 import "../Components/Navbar.css"
 import {Link} from "react-router-dom"
-// import LogoF from "../assets/LogoF.jpg"
+import './Navbar.css'
 import pxfuel from "../assets/pxfuel.jpg"
+
+import LoginComp from './LoginComp'
 const Navbar = () => {
+  
   return (
     <div>
       <div className='navbar'>
@@ -20,6 +23,8 @@ const Navbar = () => {
         <div className='Links'>
           <Link to="/" >Home</Link>
           <a href="#exercises" >Exercises</a>
+          <LoginComp/>
+          
 
            
         </div>

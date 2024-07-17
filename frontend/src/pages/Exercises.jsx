@@ -31,7 +31,7 @@ const Exercises = ({ exercises , setExercises , bodyPart}) => {
     fetchExercisesData();
   }, [bodyPart]);
 
-  console.log(exercises)
+  
   return (
     <div id="exercises">
       <p id="show">Showing Results</p>

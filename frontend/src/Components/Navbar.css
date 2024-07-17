@@ -15,6 +15,7 @@
     margin-right: 50px;
     display: flex;
     align-items: center;
+    gap: 15px;
     text-decoration:none;
     color:#3A1212;
     
@@ -36,4 +37,13 @@
   gap: 50px;
   padding: 12px;
   margin-left: 38px;
+}
+.navbar-button{
+  color: #eee8e8;
+    background-color: red;
+    font-size: 18px;
+    border: 0;
+   
+    border-radius: 23px;
+    padding: 5px 26px 5px 27px;
 }

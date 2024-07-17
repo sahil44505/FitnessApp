@@ -7,6 +7,13 @@ export const exerciseOptions = {
 		'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
 	}
 };
+export const youtubeOptions = {
+	method: 'GET',
+	headers: {
+	  'x-rapidapi-key': import.meta.env.VITE_RAPID_YT_API_KEY,
+	  'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com'
+	}
+  };
 // const url = 'https://exercisedb.p.rapidapi.com/exercises?limit=10&offset=0';
 
 

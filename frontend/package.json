@@ -2,7 +2,6 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
-  
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,16 +10,30 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@cashfreepayments/cashfree-js": "^1.0.5",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/inter": "^5.0.20",
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/x-date-pickers": "^7.13.0",
     "axios": "^1.7.2",
+    "dayjs": "^1.11.12",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fetch": "^1.1.0",
+    "frontend": "file:",
     "mongoose": "^8.5.0",
     "node": "^20.15.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-horizontal-scrolling-menu": "^7.1.1",
-    "react-router-dom": "^6.23.1"
+    "react-icons": "^5.2.1",
+    "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5",
+    "swiper": "^11.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

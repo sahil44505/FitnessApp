@@ -1,0 +1,31 @@
+
+
+.fa-lg {
+    font-size: 1.0em;
+    color: #07a2c8;
+    line-height: 0.05em;
+    vertical-align: -0.075em;
+}
+.badge-container {
+    position: relative;
+    display: inline-block;
+}
+
+.badge {
+    font-size: 24px; /* Adjust as needed */
+}
+
+.badge-count {
+    position: absolute;
+    top: -10px; /* Adjust to move the number up or down */
+    right: -10px; /* Adjust to move the number left or right */
+    background-color: #d1320a;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 20px; /* Adjust size */
+    height: 20px; /* Adjust size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px; /* Adjust text size */
+}

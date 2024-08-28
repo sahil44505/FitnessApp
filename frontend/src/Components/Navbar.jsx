@@ -3,8 +3,9 @@ import "../Components/Navbar.css"
 import {Link} from "react-router-dom"
 import './Navbar.css'
 import pxfuel from "../assets/pxfuel.jpg"
-
+import Cart from '../pages/Cart'
 import LoginComp from './LoginComp'
+import BadgeIcon from '../pages/BadgeIcon'
 const Navbar = () => {
   
   return (
@@ -23,7 +24,14 @@ const Navbar = () => {
         <div className='Links'>
           <Link to="/" >Home</Link>
           <a href="#exercises" >Exercises</a>
+          <Link to ="/Shop">Shop</Link>
+          <Link to="/Tracker">Tracker</Link>
+          <Link to="/Cart">
+          <BadgeIcon icon="fa-shopping-cart" value={5} />
+          </Link>
+          
           <LoginComp/>
+          
           
 
            

@@ -2,11 +2,15 @@ import React from 'react'
 import HeroBanner from './HeroBanner'
 import SearchExercises from './SearchExercises'
 import Exercises from './Exercises'
-import { useState ,useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Home = () => {
-  const[exercises,setExercises]=useState([])
-  const[ bodyPart , setBodyPart] =useState('all')
+ 
+  
+
+  const [exercises, setExercises] = useState([])
+  const [bodyPart, setBodyPart] = useState('all')
 
   return (
     <div>
@@ -20,7 +24,7 @@ const Home = () => {
       bodyPart={bodyPart}
       exercises={exercises}/>
       */}
-      
+
     </div>
   )
 }

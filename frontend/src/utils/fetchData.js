@@ -3,14 +3,14 @@ export const exerciseOptions = {
 
 	method: 'GET',
 	headers: {
-		'x-rapidapi-key': import.meta.env.VITE_RAPID_API_KEY ,
+		'x-rapidapi-key':'ad3112e82dmshf63ecc4c23d9a5fp171d99jsn3884945232c8',
 		'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
 	}
 };
 export const youtubeOptions = {
 	method: 'GET',
 	headers: {
-	  'x-rapidapi-key': import.meta.env.VITE_RAPID_YT_API_KEY,
+	  'x-rapidapi-key': 'ad3112e82dmshf63ecc4c23d9a5fp171d99jsn3884945232c8',
 	  'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com'
 	}
   };

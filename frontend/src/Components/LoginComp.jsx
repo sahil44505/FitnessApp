@@ -47,7 +47,7 @@ const LoginComp = () => {
 
       sendCredentials(credentials);
       
-      toast.success(' Welcome back!', {
+      toast.success(' Welcome !', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,

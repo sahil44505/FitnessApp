@@ -1,7 +1,7 @@
 import {React, useEffect,useState}from 'react'
 import CircularProgress from '@mui/joy/CircularProgress';
 import {AiOutlineEye} from 'react-icons/ai'
-import "./tracker.css"
+import "./css/tracker.css"
 const Trackcards = () => {
   const [data, setdata] = useState(0);
   const getData = async () => {

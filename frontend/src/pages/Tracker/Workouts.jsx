@@ -1,5 +1,5 @@
 import React from 'react'
-import "./tracker.css"
+import "./css/tracker.css"
 import "../../App.css"
 import { useRef, useState ,useEffect } from 'react';
 

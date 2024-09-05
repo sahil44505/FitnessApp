@@ -9,6 +9,7 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import Tracker from './pages/Tracker/Tracker'
 import WorkoutDetail from './pages/Tracker/WorkoutDetail'
+import Reports from './pages/Tracker/Reports'
 function App() {
   console.log(import.meta.env)
   
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Cart" element={<Cart/>}/>
           <Route path="/tracker" element={<Tracker/>}/>
           <Route path="/workout/:type" element={<WorkoutDetail/>}/>
+          <Route path="/report/:itemname" element={<Reports/>}/>
          
         
 

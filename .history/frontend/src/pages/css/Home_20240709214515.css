@@ -1,0 +1,180 @@
+.hero-para{
+    position: absolute;
+    bottom: 143px;
+    color: white;
+    margin-left: 38px;
+    width: 20%;
+    padding: 0px 0px 0px 97px;
+    font-size: 31px;
+}
+.hero-text{
+    position: absolute;
+    bottom: 68px;
+    color: white;
+    margin-left: 12px;
+    width: 30%;
+    text-align: center;
+}
+.hero-button{
+    position: absolute;
+    color: #eee8e8;
+    background-color: red;
+    font-size: 18px;
+    padding: 5px 26px 5px 27px;
+    bottom: 12px;
+   
+    border: 0;
+    border-radius: 27px;
+    left: 128px;
+}
+.search-container{
+    width: 99%;
+    height: 28vh;
+   
+    text-align: center;
+    border: 2px solid red;
+    margin-top: 34px;
+    margin-bottom: 8px;
+}
+.search-div{
+    width: 99%;
+}
+.search-para{
+    font-size: 39px;
+    position: absolute;
+    width: 30%;
+    left: 35vw;
+}
+.textfeild{
+    position: relative;
+    width: 18%;
+    top: 119px;
+    height: 24px;
+    border: none;
+    font-weight: 700;
+    border-radius: 10px;
+    background-color: #f1eded;
+    padding: 4px 2px 4px 17px;
+    margin-top: 20px;
+}
+.search-button{
+    position: relative;
+    color: #eee8e8;
+    background-color: red;
+    font-size: 18px;
+    border: 0;
+    top: 118px;
+    left: 12px;
+    border-radius: 23px;
+    padding: 5px 26px 5px 27px;
+}
+.search-button:hover{
+    background-color: white;
+    color: red;
+}
+.src{
+    background-color: green;
+}
+
+.card-container{
+    display: flex;
+    border: 2px solid red;
+    height: 40vh;
+    width: 99%;
+
+}
+.card{
+    padding: 4px 6px 4px 6px;
+    border: 2px solid green;
+    display: flex;
+    margin: 25px 16px 6px 16px;
+    height: 68%;
+    cursor: pointer;
+    width: 11%;
+    align-items: center;
+    justify-content: center;
+}
+#exercises{
+    margin-top: 50px;
+    padding: 20px;
+    
+}
+#show{
+    font-size: 5vh;
+}
+.exercises-container{
+      
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 86%;
+    padding-left: 15px;
+    margin-left: 16vh;
+    margin-top: 10px;
+    border: 2px solid red;
+    display: flex;
+}
+.exercise-cart{
+    border: 2px solid red;
+}
+.exercise-button-sec{
+    display: flex;
+    flex-wrap: wrap;
+}
+.exercise-button{
+    background: #ffa9a9;
+    font-size: 14px;
+    margin: 0px 0px 20px 20px;
+    padding: 5px 13px 5px 14px;
+    border: none;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+.new{
+    background:#d8d774;
+   
+}
+.exercise-name{
+    font-weight: bold;
+    color: black;
+    font-size: 22px;
+    margin: 0px 2px 8px 11px;
+    text-transform: capitalize;
+}
+.ex-detail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:60px;
+
+}
+.img-para{
+    font-weight: bold;
+    font-size: 22px;
+}
+.img-para-2{
+    margin-top: 12px;
+    font-weight: 500;
+}
+.icon-detail{
+    display: flex;
+    direction: row;
+    gap: 24px;
+    align-items: center;
+
+}
+.ex-vid{
+    margin-top: 200px;
+    padding: 20px;
+
+}
+.ex-vid-para{
+    font-weight: 900;
+}
+.ex-vid-videos{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    gap:110px;
+}

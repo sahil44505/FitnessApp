@@ -1,0 +1,47 @@
+.reportpage{
+    background-color: white;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.reportpage .s1{
+    width: 40%;
+    padding: 10px;
+}
+
+
+.reportpage .s2{
+    width: 40%;
+    padding: 10px;
+}
+
+
+.reportpage .s3{
+    width: 40%;
+    padding: 10px;
+}
+
+
+.reportpage .s4{
+    width: 40%;
+    padding: 10px;
+}
+
+.editbutton {
+    background-color: transparent; /* Or any color you want */
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* Adjust as needed */
+    color: #ff0e0e; /* Ensure it's a visible color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.reportpage .editbutton:hover{
+    background-color: black;
+    color: var(--col1);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}

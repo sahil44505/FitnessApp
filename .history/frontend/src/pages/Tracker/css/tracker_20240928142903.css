@@ -1,0 +1,254 @@
+.cards-container{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+.card{
+    border: none;
+}
+
+.cards-container .card {
+    width: 200px;
+    height: 200px;
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* .cards-container .card:nth-child(1) {
+    background: grey
+}
+.cards-container .card:nth-child(2) {
+    background: rgb(224, 52, 52)
+}
+
+.cards-container .card:nth-child(3) {
+    background: rgb(91, 221, 132)
+}
+
+
+.cards-container .card:nth-child(4) {
+    background:rgb(174, 200, 59)
+}
+
+.cards-container .card:nth-child(5) {
+    background:rgb(124, 20, 20)
+}
+
+.cards-container .card:nth-child(6) {
+    background: rgb(21, 191, 174)
+} */
+
+.cards-container .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.cards-container .card-header-box {
+    display: flex;
+    flex-direction: column;
+    min-width: 49%;
+    background-color: white;
+    aspect-ratio: 1/1;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.cards-container .card-header-box-name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.cards-container .card-header-box-value {
+    font-size: 17px;
+    color: #333;
+    font-weight: 600;
+}
+
+.cards-container .card button{
+    background-color: #ffffff;
+    color: rgb(33, 33, 33);
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.cards-container .card button:hover{
+    background-color: rgb(33, 33, 33);
+    color: white;
+}
+
+
+.cards-container .textincircle{
+    color: #ffffff;
+    font-weight: 700;
+}
+.header{
+ margin: 10px;
+ padding: 10px;
+}
+/* Slider */
+.slides {
+    width: 281px;
+    height: 200px;
+    border-radius: 20px;
+    border: 1px solid #e6e6e6;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+
+.slides .slides-content{
+    background-color: rgba(0, 0, 0, 0.385);
+    color: white;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 20px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.slides .slides-content h2{
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+.slides .slides-content  p{
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+.swiper-pagination {
+    position: absolute;
+    text-align: center;
+    left: -33px;
+    transition: 300ms opacity;
+    transform: translate3d(0, 0, 0);
+    z-index: 10;
+}
+.mainhead1{
+    font-size: 5.0rem;
+    background-color: black;
+    color: white;
+}
+.workout {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    text-align: center;
+}
+
+.workout__exercises{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.workout__exercise {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.workout__exercise--reverse {
+    flex-direction: row-reverse;
+}
+
+
+.workout__exercise__image img {
+    max-width: 100%;
+    height: auto;
+    min-width: 300px;
+}
+
+.workout__exercise__content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+
+.workout__exercise--reverse .workout__exercise__content {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.workout__exercise__content h2 {
+    font-size: 50px;
+    font-weight: 900;
+    -webkit-text-stroke: 1px #333;
+    color: transparent;
+
+}
+
+.workout__exercise__content span{
+    font-size: 20px;
+    font-weight: 300;
+    color: #e66161;
+    background-color: var(--col1);
+    padding: 5px 20px;
+    border-radius: 35px;
+    
+}
+
+.workout__exercise__content p {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--col1);
+}
+
+.workout__exercises h3{
+    -webkit-text-stroke: 2px #292828;
+    color: transparent;
+    font-size: 10rem;
+    font-weight: 900;
+    text-align: center;
+    border: 1px solid red;
+    width: 15rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+.textincircle{
+    color:#333;
+    font-weight: ;
+
+}
+.hr-line{
+
+}

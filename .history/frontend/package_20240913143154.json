@@ -1,0 +1,51 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
+    "@cashfreepayments/cashfree-js": "^1.0.5",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/inter": "^5.0.20",
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/material": "^5.15.14",
+    "@mui/x-charts": "^7.14.0",
+    "@mui/x-date-pickers": "^7.13.0",
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.12",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "fetch": "^1.1.0",
+    "frontend": "file:",
+    "mongoose": "^8.5.0",
+    "node": "^20.15.0",
+    "react": "^18.3.1",
+    "react-datepicker": "^7.3.0",
+    "react-dom": "^18.3.1",
+    "react-horizontal-scrolling-menu": "^7.1.1",
+    "react-icons": "^5.2.1",
+    "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5",
+    "swiper": "^11.1.9"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "vite": "^5.3.1"
+  }
+}

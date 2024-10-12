@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { load } from '@cashfreepayments/cashfree-js';
 import { useShopContext } from '../../context/ShopContext';
-import { toast } from 'react-toastify'; // Install react-toastify for toast notifications
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for react-toastify
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Pay = ({onSuccess}) => {
+const Pay = ({ onSuccess }) => {
     const { cart, clearCart } = useShopContext();
     const [cashfree, setCashfree] = useState(null);
     const [orderId, setOrderId] = useState("");
@@ -18,10 +18,10 @@ const Pay = ({onSuccess}) => {
     }, []);
 
     const getSessionId = async () => {
-       
         const token = localStorage.getItem('token');
         try {
-            let response = await fetch("http://localhost:8080/pay/payment", {
+            
+            const response = await fetch("http://localhost:8080/pay/payment", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,35 +29,46 @@ const Pay = ({onSuccess}) => {
                 },
                 body: JSON.stringify({ cartItems: cart })
             });
-            let res = await response.json();
+            const res = await response.json();
+            
 
             if (res.data && res.data.payment_session_id) {
-                setOrderId(res.order_id);
+                setOrderId(res.data.order_id);
                 return res.data.payment_session_id;
+            } else {
+                toast.error(res.error || 'Failed to initiate payment');
             }
         } catch (error) {
             console.error("Error from payment", error);
+            toast.error('Network error. Please try again.');
         }
     };
 
     const verifyPayment = async () => {
+        const token = localStorage.getItem('token');
+        
         try {
-            let response = await fetch("http://localhost:8080/pay/verify", {
+            const response = await fetch("http://localhost:8080/pay/verify", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ orderId })
             });
-            let res = await response.json();
+            const res = await response.json();
+           
 
-            if (res) {
+            if (res.success) {
                 toast.success("Your order is on the way!");
+                clearCart(); // Clear cart from the context or API if payment is successful
                 if (onSuccess) onSuccess(); 
-                
+            } else {
+                toast.error(res.message || 'Payment verification failed');
             }
         } catch (error) {
             console.error(error);
+            toast.error('Verification error. Please try again.');
         }
     };
 
@@ -71,26 +82,25 @@ const Pay = ({onSuccess}) => {
                     redirectTarget: "_modal",
                 };
                 cashfree.checkout(checkoutOptions).then(() => {
-                    console.log("Payment initialized");
-                    verifyPayment(); 
+                  
+                    verifyPayment(); // Verify the payment after the checkout
                 }).catch((error) => {
                     console.error("Payment initialization error", error);
+                    toast.error('Payment initialization failed. Please try again.');
                 });
             }
         } catch (error) {
             console.error(error);
+            toast.error('Error occurred. Please try again.');
         }
     };
 
     return (
-        <>
-            <h1>Cashfree Payment</h1>
-            <div className="card">
-                <button onClick={handleClick}>
-                    Pay now
-                </button>
-            </div>
-        </>
+        <div className="pay-div">
+            <button className="pay-button" onClick={handleClick}>
+                Pay now
+            </button>
+        </div>
     );
 };
 

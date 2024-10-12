@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('mongodb');
-const connectDb = require('../../frontend/src/utils/db')
+const connectDb = require('../../frontend/src/utils/db');
 const authTokenHandler = require('../middleware/authenticateUser');
-
 require('dotenv').config();
-
 
 function createResponse(ok, message, data) {
     return {
@@ -15,198 +13,129 @@ function createResponse(ok, message, data) {
     };
 }
 
-
 router.get('/test', authTokenHandler, async (req, res) => {
     res.json(createResponse(true, 'Test API works for report'));
 });
 
 router.get('/getreport', authTokenHandler, async (req, res) => {
-    // get today's calorieIntake
+    // Get user's ID and connect to the database
     const userId = new ObjectId(req.userId);
     const db = await connectDb();
     const collection = db.collection('User');
 
+    // Fetch the user data
     const user = await collection.findOne({ _id: userId });
+
+    // Check if user or tracker data exists
+    if (!user || !user.tracker || !user.tracker.length) {
+        return res.json(createResponse(false, 'User not found or no tracker data available', null));
+    }
+
+    const trackerData = user.tracker[0]; // Access the first tracker data
     let today = new Date();
-
-    let todayISO = today.toISOString().split('T')[0];
-
+    let oneWeekAgo = new Date(today); // Clone today's date
+    oneWeekAgo.setDate(today.getDate() - 7); // Set to one week ago
     let calorieIntakee = 0;
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].calorieIntake) {
-        user.tracker[0].calorieIntake.forEach((entry) => {
-            // let entryDateISO = new Date(entry.date).toISOString().split('T')[0];
 
-            if (entry.date.getDate() >= today.getDate() - 7 && entry.date.getMonth() === today.getMonth() && entry.date.getFullYear() === today.getFullYear()) {
-                calorieIntakee += parseInt(entry.calorieIntake, 10);
-            }
-
-        });
-    } else {
-        // Set calorieIntakee as undefined if there's an error or it's not an array
-        calorieIntakee = undefined; // Change to NaN or another value as per your requirements
-    }
-
-
-
-
-
-    // get today's steps
-    let steps = 0;
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].steps) {
-        user.tracker[0].steps.forEach((entry) => {
-            // let entryDateISO = new Date(entry.date).toISOString().split('T')[0];
-
-            if (entry.date.getDate() >= today.getDate() - 7 && entry.date.getMonth() === today.getMonth() && entry.date.getFullYear() === today.getFullYear()) {
-                steps += parseInt(entry.steps, 10);
+    // Calculate calorie intake for the past 7 days
+    if (trackerData.calorieIntake && Array.isArray(trackerData.calorieIntake)) {
+        trackerData.calorieIntake.forEach((entry) => {
+            const entryDate = new Date(entry.date);
+            
+            // Ensure the entry date is within the last 7 days
+            if (entryDate >= oneWeekAgo && entryDate <= today) {
+                calorieIntakee += parseInt(entry.calorieIntake, 10) || 0;  // Fallback to 0 if NaN
             }
         });
-    } else {
-        steps = undefined; // Change to another value as per your requirements
     }
+    
 
-    // get today's weight
-    let weight = user.tracker && user.tracker.length > 0 && user.tracker[0].weightInKg && user.tracker[0].weightInKg.length > 0
-        ? user.tracker[0].weightInKg[user.tracker[0].weightInKg.length - 1].weight
-        : undefined; // Set to undefined if there's no weight data
    
+    let steps = 0;
+    if (trackerData.steps && Array.isArray(trackerData.steps)) {
+        trackerData.steps.forEach((entry) => {
+            const entryDate = new Date(entry.date);
 
-    // Get today's height
-    let height = user.tracker && user.tracker.length > 0 && user.tracker[0].heightInCm && user.tracker[0].heightInCm.length > 0
-        ? user.tracker[0].heightInCm[user.tracker[0].heightInCm.length - 1].height
-        : undefined; // Set to undefined if there's no height data
+            if (entryDate >= oneWeekAgo && entryDate <= today) {
+                steps += parseInt(entry.steps, 10) || 0;  
+            }
+        });
+    }
   
 
+   
+    let weight = trackerData.weightInKg && Array.isArray(trackerData.weightInKg) 
+        ? trackerData.weightInKg[trackerData.weightInKg.length - 1].weight 
+        : null;
 
-    // get this week's workout
+   
+    let height = trackerData.heightInCm && Array.isArray(trackerData.heightInCm) 
+        ? trackerData.heightInCm[trackerData.heightInCm.length - 1].height 
+        : null;
+
+    
     let workout = 0;
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].workouts) {
-        user.tracker[0].workouts.forEach((entry) => {
-            if (entry.date.getDate() >= today.getDate() - 7 && entry.date.getMonth() === today.getMonth() && entry.date.getFullYear() === today.getFullYear()) {
+    if (trackerData.workouts && Array.isArray(trackerData.workouts)) {
+        trackerData.workouts.forEach((entry) => {
+            const entryDate = new Date(entry.date);
+
+            if (entryDate >= oneWeekAgo && entryDate <= today) {
                 workout += 1;
             }
         });
-
-    } else {
-        workout = undefined;
     }
 
-    // get goal calorieIntake
 
-    let maxCalorieIntake = 0;
-    const trackerData = user.tracker[user.tracker.length - 1];
-
-    let heightInCm = (user.tracker && user.tracker.length > 0 && user.tracker[0].heightInCm && user.tracker[0].heightInCm.length > 0)
-        ? parseFloat(trackerData.heightInCm[0].height)
-        : undefined; // Safely get heightInCm or set to undefined
-  
-
-    // Safely get weightInKg
-    let weightInKg = (user.tracker && user.tracker.length > 0 && user.tracker[0].heightInCm && user.tracker[0].heightInCm.length > 0)
-        ? parseFloat(trackerData.weightInKg[0].weight)
-        : undefined; // Safely get weightInKg or set to undefined
    
-    let birthDate;
-    let age = 0; // Declare age variable at the top
-   
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].dob) {
-        let birthDate = new Date(user.tracker[0].dob);
-
-        if (birthDate > today) {
-            console.log('Date of birth is in the future. Age cannot be calculated.');
-            age = undefined; // Set to undefined if the birth date is in the future
-        } else {
-            age = today.getFullYear() - birthDate.getFullYear(); // Modify the existing age variable
-
-            let monthDifference = today.getMonth() - birthDate.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-                age--; // Adjust age if the birthday has not occurred yet this year
-            }
-        }
-    } else {
-        age = undefined; // Set to undefined if no dob
-    }
-
-    console.log(age);
     let BMR = 0;
-    let gender;
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].gender) {
-        gender = user.tracker[0].gender;
+    let gender = trackerData.gender;
+    let age = 0;
 
-        if (gender === 'male') {
-            BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) + 5;
-        } else if (gender === 'female') {
-            BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) - 161;
-        } else {
-            BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) - 161;
-        }
-    } else {
-        // Set gender to undefined if there's no gender available
-        gender = undefined; // Change this to any default value if needed
-    }
-   
-    // Adjusting BMR based on goal
-    let goal;
-    if (trackerData && trackerData.goal) {
-        let goal = trackerData.goal
-        if (goal == 'weightLoss') {
-            maxCalorieIntake = BMR-500;  // Calorie deficit for weight loss
-        }
-        else if (goal == 'weightGain') {
-            maxCalorieIntake = BMR+500;  // Calorie surplus for weight gain
-        }
-        else {
-            maxCalorieIntake = BMR;  // Maintain weight
-        }
-    } else {
-        // Set maxCalorieIntake to undefined or a default value if there's no goal available
-        maxCalorieIntake = undefined; // Change this to any default value if needed
-    }
     
+    let birthDate = new Date(trackerData.dob);
+    if (birthDate > today) {
+        console.log('Date of birth is in the future. Age cannot be calculated.');
+        age = undefined; 
+    } else {
+        age = today.getFullYear() - birthDate.getFullYear();
+        let monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--; 
+        }
+    }
+
    
-
-
-
-    // get goal weight
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].heightInCm && user.tracker[0].heightInCm.length > 0) {
-        goalWeight = 22 * ((user.tracker[0].heightInCm[user.tracker[0].heightInCm.length - 1].height / 100) ** 2);
+    let weightInKg = parseFloat(weight);
+    let heightInCm = parseFloat(height);
+    if (gender === 'male') {
+        BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) + 5;
+    } else if (gender === 'female') {
+        BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) - 161;
     } else {
-        // Set goalWeight to undefined or a default value if there's no heightInCm data
-        goalWeight = undefined; // Change this to any default value if needed
+        BMR = (10 * weightInKg) + (6.25 * heightInCm) - (5 * age) - 161;
     }
 
-    // get goal workout
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].goal) {
-        // Determine goalWorkout based on user's goal
-        if (user.tracker[0].goal === "weightLoss") {
-            goalWorkout = 7;
-        } else if (user.tracker[0].goal === "weightGain") {
-            goalWorkout = 4;
-        } else {
-            goalWorkout = 5; // Default value for other goals
-        }
+   
+    let maxCalorieIntake = 0;
+    let goal = trackerData.goal;
+    if (goal === 'weightLoss') {
+        maxCalorieIntake = BMR - 500;  
+    } else if (goal === 'weightGain') {
+        maxCalorieIntake = BMR + 500;  
     } else {
-        // Set goalWorkout to undefined or a default value if there's no goal data
-        goalWorkout = undefined; // Change this to any default value if needed
+        maxCalorieIntake = BMR; 
     }
 
-    // get goal steps
-    let goalSteps = 0;
+    
+    let goalWeight = 22 * ((heightInCm / 100) ** 2);
 
-    // Check if user.tracker exists and has data before accessing goal
-    if (user.tracker && user.tracker.length > 0 && user.tracker[0].goal) {
-        // Determine goalSteps based on user's goal
-        if (user.tracker[0].goal === "weightLoss") {
-            goalSteps = 10000; // Steps for weight loss
-        } else if (user.tracker[0].goal === "weightGain") {
-            goalSteps = 5000;  // Steps for weight gain
-        } else {
-            goalSteps = 7500;  // Default steps for maintaining weight
-        }
-    } else {
-        // Set goalSteps to undefined or a default value if there's no goal data
-        goalSteps = undefined; // Change this to any default value if needed
-    }
+    
+    let goalWorkout = (goal === "weightLoss") ? 7 : (goal === "weightGain") ? 4 : 5;
 
+   
+    let goalSteps = (goal === "weightLoss") ? 10000 : (goal === "weightGain") ? 5000 : 7500;
+
+    // Preparing response data
     let tempResponse = [
         {
             name: "Calorie Intake",
@@ -214,14 +143,12 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
             goal: maxCalorieIntake,
             unit: "cal",
         },
-
         {
             name: "Steps",
             value: steps,
             goal: goalSteps,
             unit: "steps",
         },
-
         {
             name: "Workout",
             value: workout,
@@ -234,12 +161,9 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
             goal: goalWeight,
             unit: "kg",
         },
-
-    ]
+    ];
 
     res.json(createResponse(true, 'Report', tempResponse));
-})
-
-
+});
 
 module.exports = router;

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import ExerciseDetail from './pages/ExerciseDetail'
 import Navbar from './Components/Navbar'
-import Footer from './Components/Footer'
+
 import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import Tracker from './pages/Tracker/Tracker'
@@ -35,7 +35,7 @@ function App() {
 
         
         </Routes>
-        <Footer/>      
+          
       </Router>
     
     </div>

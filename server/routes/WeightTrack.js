@@ -91,8 +91,11 @@ router.post('/getweightbydate', authTokenHandler, async (req, res) => {
     const collection = db.collection('User');
     
     const user = await collection.findOne({ _id: userId });
-   
-    const inputDate = date ? new Date(date) : new Date(); ; 
+
+    const inputDate = date ? new Date(date) : new Date(); 
+    if (!user.tracker[0].weightInKg) {
+        user.tracker[0].weightInKg = []; // Initialize the array if it doesn't exist
+    }
   
     if (!date) {
         

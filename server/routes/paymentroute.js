@@ -1,33 +1,39 @@
 const express = require('express');
-const crypto = require('crypto');
+
 const router = express.Router();
 const { Cashfree } = require('cashfree-pg');
-const { getUserFromToken } = require('../middleware/authmiddleware'); // Adjust the import based on your file structure
+const { getUserFromToken } = require('../middleware/authmiddleware');
+const { ObjectId } = require('mongodb'); 
+const connectDb = require("../../frontend/src/utils/db")
 
 // Function to generate a unique Order ID
-function generateOrderId() {
-    const uniqueId = crypto.randomBytes(16).toString('hex');
-    const hash = crypto.createHash('sha256');
-    hash.update(uniqueId);
-    const orderId = hash.digest('hex');
-    return orderId.substr(0, 12);
+const { randomBytes } = require('crypto');
+
+// Asynchronous function to generate a unique Order ID
+async function generateOrderId() {
+    return new Promise((resolve, reject) => {
+        try {
+            const timestamp = Date.now().toString();
+            const randomPart = randomBytes(6).toString('hex'); // Generates a 12-character hex string
+            const orderId = `${timestamp}-${randomPart}`;
+            resolve(orderId);
+        } catch (error) {
+            reject(error);
+        }
+    });
 }
 
 // Route to create a payment order
-router.post('/payment', getUserFromToken,async (req, res) => {
+router.post('/payment', getUserFromToken, async (req, res) => {
     try {
-        const { cartItems } = req.body; // Expecting cartItems to be sent in the request body
-        
+        const { cartItems } = req.body;
 
         if (!cartItems || !cartItems.length) {
             return res.status(400).json({ error: 'Cart is empty' });
         }
 
-
-         // Extract token from Authorization header
-
         // Fetch user details based on the token
-        const user = req.user // Replace with your method to fetch user from token
+        const user = req.user;
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid token' });
@@ -35,73 +41,73 @@ router.post('/payment', getUserFromToken,async (req, res) => {
 
         // Calculate total amount based on cart items
         const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
+        const orderId = await generateOrderId();
+      
         let request = {
             "order_amount": totalAmount,
             "order_currency": "INR",
-            "order_id": generateOrderId(),
+            "order_id": orderId,
             "customer_details": {
-                "customer_id": user._id.toString(), // User ID or another identifier
+                "customer_id": user._id.toString(),
                 "customer_phone": "9986545646",
-                "customer_name": user.name || "sddad",
-                "customer_email": user.email || "dsdad@gmail.com"
+                "customer_name": user.name || "Anonymous",
+                "customer_email": user.email || "example@gmail.com"
             },
         };
-        Cashfree.XEnvironment=Cashfree.Environment.SANDBOX
+
+        Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+
         // Create payment order
-         
-    try{
-        
-        Cashfree.PGCreateOrder("2023-08-01",request).then(response => {
-            
-            res.json({msg:'data sent',data:response.data})
-
-        }).catch(error =>{
-            console.error(error.response.data.message)
-        })
-        
-        } catch (error) {
-            
-            if (error.response && error.response.data && error.response.data.message) {
-                console.error("Error message:", error.response.data.message);
-                res.status(500).json({ error: error.response.data.message });
-            } else {
-                console.error("Unknown error:", error);
-                res.status(500).json({ error: "Order creation failed" });
-            }
-        }
-
-
+        Cashfree.PGCreateOrder("2023-08-01", request)
+            .then(response => {
+                res.json({ msg: 'Payment session created', data: response.data });
+            })
+            .catch(error => {
+                console.error(error.response?.data?.message || 'Payment creation failed');
+                res.status(500).json({ error: error.response?.data?.message || 'Payment creation failed' });
+            });
 
     } catch (error) {
-        console.log("Try error")
-        console.log(error);
+        console.error("Internal error:", error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-
 });
 
 // Route to verify payment
-router.post('/verify', async (req, res) => {
+router.post('/verify', getUserFromToken, async (req, res) => {
     try {
         const { orderId } = req.body;
+        
+
+        const user = req.user;
 
         if (!orderId) {
             return res.status(400).json({ error: 'Order ID is required' });
         }
 
-        // Verify payment
-       
-        Cashfree.PGOrderFetchPayments("2023-08-01", orderId).then((response) => {
+        await Cashfree.PGOrderFetchPayments("2023-08-01", orderId)
+            .then(async (response) => {
+                
+                if (response.data) {
+                    const db = await connectDb();
+                    const collection = db.collection('User');
+                    const userId = new ObjectId(user._id);
 
-            res.json(response.data);
-        }).catch(error => {
-            console.error(error.response.data.message);
-        })
+                    // Clear user's cart in MongoDB
+                    await collection.updateOne({ _id: userId }, { $set: { cart: [] } });
+                    res.status(200).json({ success: true, message: "Payment successful", data: response.data });
+                } else {
+                    res.status(400).json({ success: false, message: "Payment failed", data: response.data });
+                }
+            })
+            .catch(error => {
+                console.error("Verification Error:", error.response?.data?.message || error);
+                res.status(500).json({ error: "Payment verification failed" });
+            });
 
     } catch (error) {
-        console.error('Internal error:', error);
+        console.error("Internal Verification Error:", error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 module.exports = router;

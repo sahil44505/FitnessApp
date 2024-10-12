@@ -115,7 +115,9 @@ router.post('/getcalorieintakebydate', authTokenHandler, async (req, res) => {
         return res.json(createResponse(true, 'Calorie intake for today', user.tracker.calorieIntake));
     }
     const inputDateStr = inputDate.toISOString().split('T')[0]; // Get date in 'YYYY-MM-DD' format
-
+    if (!user.tracker[0].calorieIntake) {
+        user.tracker[0].calorieIntake = []; 
+    }
     // Filter entries by checking if they match the input date (ignoring time)
     const filteredEntries = user.tracker[0].calorieIntake.filter(entry => {
         const entryDateStr = new Date(entry.date).toISOString().split('T')[0]; 
@@ -161,7 +163,7 @@ router.post('/getcalorieintakebylimit', authTokenHandler, async (req, res) => {
 
 router.delete('/deletecalorieintake', authTokenHandler, async (req, res) => {
     const { item, date } = req.body;
-    // const itemtoremove = req.body.item
+
     if (!item || !date) {
         return res.status(400).json(createResponse(false, 'Please provide all the details'));
     }
@@ -170,26 +172,34 @@ router.delete('/deletecalorieintake', authTokenHandler, async (req, res) => {
     const db = await connectDb();
     const collection = db.collection('User');
     
-    const user = await collection.findOne({ _id: userId });
-    const inputDate = date ? new Date(date) : new Date(); ; 
-    const inputDateStr = inputDate.toISOString().split('T')[0];;
-   
-    user.tracker.calorieIntake = user.tracker[0].calorieIntake.filter((entry) => {
-        
-        return !(entry.item === item && new Date(entry.date).toISOString().split('T')[0] === inputDateStr);
-    });
+    const inputDate = date ? new Date(date) : new Date(); 
     
+    
+    const inputDateStr = inputDate.toISOString().split('T')[0]; // full ISO string for date and time comparison
+    
+    
+    const user = await collection.findOne({ _id: userId });
+    
+    
+    user.tracker[0].calorieIntake = user.tracker[0].calorieIntake.filter((entry) => {
+        const entryDateStr = new Date(entry.date).toISOString().split('T')[0];
+       
+        return !(entry.item === item && entryDateStr === inputDateStr);
+    });
+
+    // Update the user's document in the database
     const result = await collection.updateOne(
-            { _id: userId },
-            { $set: { 'tracker.0.calorieIntake': user.tracker.calorieIntake } }
-        );
+        { _id: userId },
+        { $set: { 'tracker.0.calorieIntake': user.tracker[0].calorieIntake } }
+    );
+
+    // Check if the update was successful
     if (result.modifiedCount === 0) {
         return res.status(404).json(createResponse(false, 'No matching calorie intake found to delete.'));
     }
 
-    res.json(createResponse(true, 'Calorie intake deleted successfully',result));
+    res.json(createResponse(true, 'Calorie intake deleted successfully', result));
 });
-
 router.get('/getgoalcalorieintake', authTokenHandler, async (req, res) => {
     const userId = new ObjectId(req.userId);
     const db = await connectDb(); 

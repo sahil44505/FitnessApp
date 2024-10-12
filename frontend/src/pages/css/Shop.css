@@ -1,6 +1,6 @@
 .shopTitle ,.cartTitle {
     margin-top: 22px;
-    text-align: center;
+    padding-left: 10px;
     font-size: 60px;
 }
 
@@ -8,7 +8,8 @@
     width: auto;
     height: 75vh;
     display: grid;
-    border: 2px solid black;
+    background: #f3f2ee;
+    
     grid-template-columns: 1fr 1fr 1fr;
     place-items: center;
 }
@@ -22,7 +23,7 @@
     flex-direction: column;
     justify-content: center;
    
-    border: 2px solid red;
+    
     align-items: center;
 }
 
@@ -39,6 +40,7 @@
 
 .product:hover {
     transition: 0.3s ease-in;
+    color:red;
     cursor: pointer;
 }
 
@@ -109,4 +111,104 @@
 
 .ordered-items th {
     background-color: #f4f4f4;
+}
+.cart-item {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-product img {
+   
+    width:282px;
+    object-fit: scale-down;
+   
+}
+
+.cart-item-details {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cart-item-column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-item-column h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.cart-item-price {
+    color: #020202;
+    font-size: 16px;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item-quantity button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #121212;
+    color: white;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 7px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.total-amount-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px;
+}
+
+.total-amount {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+}
+.pay-div {
+    display: flex;
+    justify-content: flex-end; /* Aligns children (the button) to the right */
+    padding: 20px; /* Add some padding if needed */
+}
+
+.pay-button {
+    padding: 10px 20px; /* Add some padding for the button */
+    background-color: #4CAF50; /* Change background color as needed */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 16px; /* Font size */
+}
+
+.pay-button:hover{
+    background-color: rgb(131, 190, 130);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
 }

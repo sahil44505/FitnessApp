@@ -1,4 +1,4 @@
-import { React, useEffect,useState, useRef } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import { useShopContext } from '../context/ShopContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import Pay from './pay/Pay';
@@ -32,18 +32,29 @@ const CartItem = ({ item }) => {
     return (
         <>
             <div className="cart-item">
-                <img src={item.productImage} alt={item.productName} />
-                <div>
-                    <h4>{item.productName}</h4>
-                    <p>{item.price}</p>
-                    <div>
-                        <button onClick={handleDecrement}>-</button>
-                        <input type="number" value={item.quantity} onChange={handleChange} />
-                        <button onClick={handleIncrement}>+</button>
-                    </div>
-                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                <div className="cart-item-product">
+                    <img src={item.productImage} alt={item.productName} />
                 </div>
-
+                <div className="cart-item-details">
+                    <div className="cart-item-row">
+                        <div className="cart-item-column">
+                            <h4>{item.productName}</h4>
+                        </div>
+                        <div className="cart-item-column">
+                            <p className="cart-item-price">Rs.{item.price.toFixed(2)}</p>
+                        </div>
+                        <div className="cart-item-column">
+                            <div className="cart-item-quantity">
+                                <button onClick={handleDecrement}>-</button>
+                                <input type="number" value={item.quantity} onChange={handleChange} />
+                                <button onClick={handleIncrement}>+</button>
+                            </div>
+                        </div>
+                        <div className="cart-item-column">
+                            <button onClick={() => removeFromCart(item.id)} className="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </>
@@ -55,29 +66,29 @@ const Cart = () => {
     const { isAuthenticated } = useAuth0();
     const [orderedItems, setOrderedItems] = useState([]);
     const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-    
+
     const handlePaymentSuccess = (items) => {
-        // Update the state with ordered items and clear the cart
+
         setOrderedItems(items);
         clearCart();
     };
     useEffect(() => {
-        // Check if the reload has already been triggered
+
         const hasReloaded = sessionStorage.getItem('hasReloaded');
-    
+
         if (!hasReloaded) {
-          // Set the flag in sessionStorage
-          sessionStorage.setItem('hasReloaded', 'true');
-          
-          // Reload the page
-          window.location.reload();
+
+            sessionStorage.setItem('hasReloaded', 'true');
+
+
+            window.location.reload();
         }
-      }, []); // Empty dependency array ensures this runs only once on mount
-      
-        if (!isAuthenticated) {
-          // Remove the 'hasReloaded' flag when the user logs out
-          sessionStorage.removeItem('hasreloaded')
-        }
+    }, []);
+
+    if (!isAuthenticated) {
+
+        sessionStorage.removeItem('hasreloaded')
+    }
 
     return (
 
@@ -85,11 +96,11 @@ const Cart = () => {
             {cart.map(item => (
                 <CartItem key={item.id} item={item} />
             ))}
-            <div className="total-amount">
-                <h3>Total Amount: Rs.{totalAmount.toFixed(2)}</h3>
+            <div className="total-amount-container">
+                <h3 className="total-amount">Total Amount: Rs.{totalAmount.toFixed(2)}</h3>
             </div>
-            <button onClick={saveCart}>Save Cart</button>
-            <Pay  onSuccess={() => handlePaymentSuccess(cart)}/>
+           
+            <Pay onSuccess={() => handlePaymentSuccess(cart)} />
             {orderedItems.length > 0 && (
                 <div className="ordered-items">
                     <h3>Your Ordered Items</h3>

@@ -57,6 +57,9 @@ router.post('/getworkoutsbydate', authTokenHandler, async (req, res) => {
     
     const user = await collection.findOne({ _id: userId });
     const inputDate = date ? new Date(date) : new Date(); ; 
+    if (!user.tracker[0].workouts) {
+        user.tracker[0].workouts = []; // Initialize the array if it doesn't exist
+    }
     if (!date) {
         let date = new Date();
         user.workouts = filterEntriesByDate(user.tracker[0].workouts,inputDate);

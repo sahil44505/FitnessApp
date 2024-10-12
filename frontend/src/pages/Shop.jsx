@@ -9,13 +9,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const Shop = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated ,isLoading } = useAuth0();
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       alert("Login first");
       navigate("/");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [currentSupPage, setCurrentSupPage] = useState(1);

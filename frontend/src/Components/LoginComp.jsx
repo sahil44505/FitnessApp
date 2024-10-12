@@ -39,7 +39,7 @@ const LoginComp = () => {
        
         const credentials = {
           
-          nickname: user.nickname || user.name, // use nickname if available, otherwise use name
+          nickname: user.nickname || user.name, 
           name: user.name,
           email: user.email,
         };

@@ -53,6 +53,9 @@ router.post('/getstepsbydate', authTokenHandler, async (req, res) => {
     
     const user = await collection.findOne({ _id: userId });
     const inputDate = date ? new Date(date) : new Date(); 
+    if (!user.tracker[0].steps) {
+        user.tracker[0].steps = []; // Initialize the array if it doesn't exist
+    }
    
     if (!date) {
        
@@ -63,6 +66,7 @@ router.post('/getstepsbydate', authTokenHandler, async (req, res) => {
     const inputDateStr = inputDate.toISOString().split('T')[0]; // Get date in 'YYYY-MM-DD' format
 
     // Filter entries by checking if they match the input date (ignoring time)
+
     const filteredEntries = user.tracker[0].steps.filter(entry => {
         const entryDateStr = new Date(entry.date).toISOString().split('T')[0]; 
         return entryDateStr === inputDateStr; 

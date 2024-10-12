@@ -14,7 +14,7 @@ export const youtubeOptions = {
 	  'x-rapidapi-host': 'youtube-search-and-download.p.rapidapi.com'
 	}
   };
-// const url = 'https://exercisedb.p.rapidapi.com/exercises?limit=10&offset=0';
+
 
 
 export const fetchData =  async (url,options)=>{

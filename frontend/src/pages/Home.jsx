@@ -3,7 +3,7 @@ import HeroBanner from './HeroBanner'
 import SearchExercises from './SearchExercises'
 import Exercises from './Exercises'
 import { useState, useEffect } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
+import "./css/Home.css"
 
 const Home = () => {
  

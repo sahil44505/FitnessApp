@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-const uri = 'mongodb://localhost:27017'; // Replace with your MongoDB URI
-const dbName = 'yourDatabaseNa'; // Replace with your database name
+const uri = 'mongodb://localhost:27017'; 
+const dbName = 'yourDatabaseNa'; 
 
 let client;
 
@@ -12,10 +12,10 @@ const connectDb = async () => {
             await client.connect();
             console.log('Connected to MongoDB');
         }
-        return client.db(dbName); // Return the database instance
+        return client.db(dbName); 
     } catch (err) {
         console.error('Error connecting to MongoDB:', err);
-        process.exit(1); // Exit process if unable to connect
+        process.exit(1); 
     }
 };
 

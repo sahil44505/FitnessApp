@@ -31,7 +31,7 @@
     height: 28vh;
    
     text-align: center;
-    border: 2px solid red;
+    
     margin-top: 34px;
     margin-bottom: 8px;
 }
@@ -39,16 +39,17 @@
     width: 99%;
 }
 .search-para{
-    font-size: 39px;
+    font-size: 41px;
     position: absolute;
+    font-weight: 700;
     width: 30%;
     left: 35vw;
 }
 .textfeild{
     position: relative;
-    width: 18%;
+    width: 29%;
     top: 119px;
-    height: 24px;
+    height: 25px;
     border: none;
     font-weight: 700;
     border-radius: 10px;
@@ -68,31 +69,48 @@
     padding: 5px 26px 5px 27px;
 }
 .search-button:hover{
-    background-color: white;
-    color: red;
+    background-color: rgb(236, 105, 105);
+    cursor:pointer;
+    color: rgb(255, 255, 255);
 }
 .src{
     background-color: green;
 }
 
-.card-container{
+.card-container {
     display: flex;
-    border: 2px solid red;
+    
     height: 40vh;
     width: 99%;
-
-}
-.card{
-    padding: 4px 6px 4px 6px;
-    border: 2px solid green;
+  }
+  
+  .card {
     display: flex;
-    margin: 25px 16px 6px 16px;
-    height: 68%;
-    cursor: pointer;
     width: 11%;
     align-items: center;
     justify-content: center;
-}
+    cursor: pointer;
+    
+    margin: 25px 16px 6px 16px;
+    height: 68%;
+    padding: 4px 6px 4px 6px;
+    
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card:hover {
+    transform: translateY(-10px) scale(1.05); 
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .card:active {
+    transform: translateY(-2px) scale(1.02); 
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  }
 #exercises{
     margin-top: 50px;
     padding: 20px;
@@ -105,15 +123,15 @@
       
     flex-wrap: wrap;
     gap: 40px;
-    width: 86%;
-    padding-left: 15px;
-    margin-left: 16vh;
+    width: 98vw;
+    background:#f3f3f3;
+    
     margin-top: 10px;
-    border: 2px solid red;
+    
     display: flex;
 }
 .exercise-cart{
-    border: 2px solid red;
+    padding-left: 94px;
 }
 .exercise-button-sec{
     display: flex;

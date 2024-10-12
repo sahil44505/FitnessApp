@@ -11,33 +11,19 @@ const initialState ={
 
 }
 const ShopContextProvider = ({children}) => {
+  
     const {isAuthenticated,isLoading} = useAuth0()
 
-   
-    const [shouldLoadCart, setShouldLoadCart] = useState(false);
   
     const [state,dispatch] = useReducer(reducer,initialState);
-    const addtoCart = (id, productName, price, productImage) =>{
-        
-        dispatch({type:"ADD_TO_CART" , payload : {id, productName, price, productImage}})
-      
-       
-    }
-    const removeFromCart = (id) => {
-        dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
-       
-       
-    };
-
-    const updateCart = (id, quantity) => {
-        dispatch({ type: "UPDATE_CART", payload: { id, quantity } });
-        
-      
-    };
-    const saveCart = async () => {
+   
+    const saveCart = async (cartItems) => {
         try {
+            console.log("called")
             
-            const token = localStorage.getItem('token'); // or wherever you store your token
+            console.log("state",cartItems)
+            
+            const token = localStorage.getItem('token');
            
             if (!token) {
                 throw new Error('No token found');
@@ -48,24 +34,23 @@ const ShopContextProvider = ({children}) => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({items:state.cart}),
+                body: JSON.stringify({items:cartItems}),
                 credentials: 'include'
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-          
-           
+            
         } catch (error) {
             console.error('Error saving cart:', error);
         }
-        setShouldLoadCart(prev => !prev);
+        
     };
 
     const loadCart = async () => {
         try {
-            const token = localStorage.getItem('token'); // or wherever you store your token
+            const token = localStorage.getItem('token'); 
             const response = await fetch('http://localhost:8080/api/cart', {
                 method: 'GET',
                 headers: {
@@ -77,6 +62,7 @@ const ShopContextProvider = ({children}) => {
           
             dispatch({ type: 'LOAD_CART', payload: data });
             
+            
         } catch (error) {
             console.error('Error loading cart:', error);
         }
@@ -84,6 +70,28 @@ const ShopContextProvider = ({children}) => {
 
     const clearCart = () => {
         dispatch({ type: 'CLEAR_CART' });
+    };
+    const addtoCart = (id, productName, price, productImage) => {
+        const existingItem = state.cart.find(item => item.id === id);
+        if (existingItem) {
+            const updatedQuantity = existingItem.quantity + 1;
+            dispatch({ type: "UPDATE_CART", payload: { id, quantity: updatedQuantity } });
+            saveCart([...state.cart.map(item => item.id === id ? { ...item, quantity: updatedQuantity } : item)]); // Save with updated quantity
+        } else {
+            const newItem = { id, productName, price, productImage, quantity: 1 };
+            dispatch({ type: "ADD_TO_CART", payload: newItem });
+            saveCart([...state.cart, newItem]); 
+        }
+    };
+
+    const removeFromCart = (id) => {
+        dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
+        saveCart(state.cart.filter(item => item.id !== id)); 
+    };
+
+    const updateCart = (id, quantity) => {
+        dispatch({ type: "UPDATE_CART", payload: { id, quantity } });
+        saveCart(state.cart.map(item => item.id === id ? { ...item, quantity } : item)); 
     };
     useEffect(() => {
         if (isAuthenticated && !isLoading) {

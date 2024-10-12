@@ -8,58 +8,88 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
+import * as Yup from 'yup';
 
-const UserData = () => {
+// Yup validation schema
+const userDataSchema = Yup.object().shape({
+    name: Yup.string()
+        .matches(/^[A-Za-z\s]+$/, "Name must not contain numbers")
+        .required('Name is required'),
+    age: Yup.number()
+        .min(16, "You must be at least 16 years old")
+        .required('Age is required'),
+    weightInKg: Yup.number()
+        .typeError('Weight must be a number')
+        .required('Weight is required'),
+    heightInCm: Yup.number()
+        .typeError('Height must be a number')
+        .required('Height is required'),
+    dob: Yup.date()
+        .max(dayjs().subtract(16, 'years'), 'You must be at least 16 years old')
+        .required('Date of birth is required'),
+});
+
+const UserData = ({ setformSubmitted }) => {
     const [formData, setFormData] = useState({
         name: '',
         age: '',
-        weightInKg: '',  // Keep as a string input
-        heightInCm: '',  // Keep as a string input
+        weightInKg: '',
+        heightInCm: '',
         goal: '',
         gender: '',
         dob: new Date(),
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Prepare the data to send
-        const dataToSubmit = { 
-            ...formData, 
-            weightInKg: formData.weightInKg ? [{ date: new Date(), weight: parseFloat(formData.weightInKg) }] : [], // Convert weight to the desired format
-            heightInCm: formData.heightInCm ? [{ date: new Date(), height: parseFloat(formData.heightInCm) }] : [] // Convert height to the desired format
-        };
+        try {
+            // Validate form data using Yup schema
+            await userDataSchema.validate(formData);
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            throw new Error('No token found');
+            // Call setformSubmitted only if it's passed as a prop
+            if (typeof setformSubmitted === 'function') {
+                setformSubmitted(true);
+            }
+
+            const dataToSubmit = {
+                ...formData,
+                weightInKg: formData.weightInKg ? [{ date: new Date(), weight: parseFloat(formData.weightInKg) }] : [],
+                heightInCm: formData.heightInCm ? [{ date: new Date(), height: parseFloat(formData.heightInCm) }] : [],
+            };
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            fetch('http://localhost:8080/user/data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(dataToSubmit),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    toast.success('Success: ' + data.msg);
+                    setFormData({
+                        name: '',
+                        age: '',
+                        weightInKg: '',
+                        heightInCm: '',
+                        goal: '',
+                        gender: '',
+                        dob: new Date(),
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        } catch (error) {
+            toast.error(error.message); // Show error message
         }
-
-        fetch('http://localhost:8080/user/data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify(dataToSubmit),
-        })
-        .then(response => response.json())
-        .then(data => {
-            toast.success('Success: ' + data.msg);
-            // Reset form after submission
-            setFormData({
-                name: '',
-                age: '',
-                weightInKg: '', // Reset weight input
-                heightInCm: '', // Reset height input
-                goal: '',
-                gender: '',
-                dob: new Date(),
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
     };
 
     return (
@@ -89,10 +119,10 @@ const UserData = () => {
                     color="neutral"
                     size="md"
                     variant="outlined"
-                    type="text" // Set as text input
+                    type="text"
                     placeholder='Weight in kg'
-                    value={formData.weightInKg} // Controlled input
-                    onChange={(e) => setFormData({ ...formData, weightInKg: e.target.value })} // Update directly
+                    value={formData.weightInKg}
+                    onChange={(e) => setFormData({ ...formData, weightInKg: e.target.value })}
                 />
 
                 <Select
@@ -127,10 +157,10 @@ const UserData = () => {
                     color="neutral"
                     size="md"
                     variant="outlined"
-                    type="text" // Set as text input
+                    type="text"
                     placeholder='Height in cm'
-                    value={formData.heightInCm} // Controlled input
-                    onChange={(e) => setFormData({ ...formData, heightInCm: e.target.value })} // Update directly
+                    value={formData.heightInCm}
+                    onChange={(e) => setFormData({ ...formData, heightInCm: e.target.value })}
                 />
 
                 <label>Date of Birth</label>

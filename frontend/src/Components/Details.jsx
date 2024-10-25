@@ -1,24 +1,8 @@
 import React from 'react'
-import pxfuel from '../assets/pxfuel.jpg'
-import goku2 from '../assets/goku2.png'
-import LogoF from '../assets/LogoF.jpg'
+
 const Details = ({ exerciseDetail }) => {
   const { bodyPart, gifUrl, name, target, equipment } = exerciseDetail;
-  const extraDetail = [
-    {
-
-      icon: pxfuel,
-      name: bodyPart,
-    },
-    {
-      icon : goku2,
-      name : target,
-    },
-    {
-      icon : LogoF,
-      name : equipment,
-    },
-  ]
+ 
   return (
     <>
       <div className='ex-detail'>

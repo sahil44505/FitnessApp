@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Exercisevideos = ({exerciseVideos , name}) => {
- console.log(exerciseVideos)
+ 
   return (
     <>
     <div className='ex-vid'>

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 
 const WorkoutDetail = () => {
-    const { type } = useParams(); // Extracts 'type' from the URL
+    const { type } = useParams(); 
     const [workout, setworkout] = useState(null);
     const getworkout = async () => {
         let data = [{

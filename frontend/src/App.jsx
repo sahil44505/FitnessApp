@@ -11,7 +11,7 @@ import Tracker from './pages/Tracker/Tracker'
 import WorkoutDetail from './pages/Tracker/WorkoutDetail'
 import Reports from './pages/Tracker/Reports'
 function App() {
-  console.log(import.meta.env)
+  
   
 
   return (

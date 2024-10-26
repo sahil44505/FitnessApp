@@ -20,7 +20,7 @@
     "events": "^3.3.0",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.10.0",
+    "mongodb": "^4.15.0",
     "mongoose": "^8.5.0",
     "path": "^0.12.7",
     "server": "file:"

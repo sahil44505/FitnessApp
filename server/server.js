@@ -3,7 +3,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const app = express();
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 const { Cashfree } = require('cashfree-pg');
 const connectDb = require('./db');
 const cors = require('cors');

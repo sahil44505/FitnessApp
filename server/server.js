@@ -5,7 +5,7 @@ const app = express();
 
 const port = 8080;
 const { Cashfree } = require('cashfree-pg');
-const connectDb = require('../frontend/src/utils/db');
+const connectDb = require('./db');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');

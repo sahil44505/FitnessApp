@@ -4,7 +4,7 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
-const connectDb = require('../../frontend/src/utils/db')
+const connectDb = require('../db')
 
 router.post("/Login", async (req, res) => {
    

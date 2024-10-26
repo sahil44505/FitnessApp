@@ -1,5 +1,5 @@
 const express = require('express')
-const connectDb = require('../../frontend/src/utils/db')
+const connectDb = require('../db')
 const authenticateUser = require('../middleware/authenticateUser')
 const router = express.Router();
 const { ObjectId } = require('mongodb');

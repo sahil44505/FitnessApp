@@ -3,8 +3,8 @@ const router = express.Router();
 const authTokenHandler = require('../middleware/authenticateUser');
 
 const request = require('request')
-const connectDb = require('../../frontend/src/utils/db')
-const User = require('../models/UserSchema');
+const connectDb = require('../db')
+
 const { ObjectId } = require('mongodb');
 require('dotenv').config();
 

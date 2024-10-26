@@ -4,7 +4,7 @@ const router = express.Router();
 const { Cashfree } = require('cashfree-pg');
 const { getUserFromToken } = require('../middleware/authmiddleware');
 const { ObjectId } = require('mongodb'); 
-const connectDb = require("../../frontend/src/utils/db")
+const connectDb = require("../db")
 
 // Function to generate a unique Order ID
 const { randomBytes } = require('crypto');

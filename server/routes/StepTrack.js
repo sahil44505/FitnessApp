@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('mongodb');
-const connectDb = require('../../frontend/src/utils/db')
+const connectDb = require('../db')
 const authTokenHandler = require('../middleware/authenticateUser');
 
 const User = require('../models/UserSchema');
